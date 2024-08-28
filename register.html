@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register Page</title>
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+    <div class="register-container">
+        <h2>Register</h2>
         <form>
             <div class="input-group">
                 <label for="email">Email</label>
@@ -18,9 +18,12 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
             <div class="button-group">
-                <button type="submit">Sign in</button>
-                <button type="button" class="register-btn" onclick="window.location.href='register.html'">Register</button>
+                <button type="submit">Submit</button>
             </div>
         </form>
     </div>
