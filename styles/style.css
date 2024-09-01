@@ -136,3 +136,37 @@ button.register-btn:hover {
 .register-container button:hover {
     background-color: #303f9f;
 }
+/* Additional styles for the Dashboard Page */
+.dashboard-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    text-align: center;
+}
+
+.dashboard-container h2 {
+    margin-bottom: 20px;
+}
+
+.dashboard-container .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dashboard-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #3f51b5;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.dashboard-container button:hover {
+    background-color: #303f9f;
+}
