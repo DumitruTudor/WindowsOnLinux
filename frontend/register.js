@@ -5,15 +5,21 @@ const form = document.getElementById('register-form');
 form.addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    // Get the username value from the input field
-    const username = document.getElementById('username').value;
+    // Capture the form data
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
 
-    // Prepare the data to be sent to the backend
-    const userData = { username };
-
+    // Create a user object to send to the backend
+    const userData = {
+        username,
+        email,
+        password
+    };
     try {
         // Send a POST request to the backend API to create the IAM user
-        const response = await fetch('http://localhost:8080/api/register', {
+        const response = await fetch('http://localhost:3000/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,15 +40,7 @@ form.addEventListener('submit', async function(event) {
         console.error("Error:", error);
         alert("Error creating IAM user: " + error.message);
     }
-});
-form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent the default form submission
 
-    // Capture the form data
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
 
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -50,12 +48,6 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Create a user object to send to the backend
-    const userData = {
-        username,
-        email,
-        password
-    };
 
     try {
         // Send a POST request to the backend to create the user
@@ -78,4 +70,5 @@ form.addEventListener("submit", async (e) => {
         console.error("Error:", error);
         alert("An error occurred during registration");
     }
+
 });

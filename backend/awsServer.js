@@ -53,7 +53,7 @@ app.post('/api/register', async (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const AWS_PORT = process.env.AWS_PORT;
+app.listen(AWS_PORT, () => {
+    console.log(`Server is running on port ${AWS_PORT}`);
 });
