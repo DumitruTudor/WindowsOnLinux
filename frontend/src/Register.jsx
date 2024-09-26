@@ -47,14 +47,13 @@ const handleSubmit = async (e) => {
         body: JSON.stringify(userData),
     });
 
-    const iamResult = await iamResponse.json();
 
     if (iamResponse.ok) {
-        alert("IAM user created successfully: " + iamResult.user.UserName);
-    } 
-    else 
-    {
-        throw new Error(iamResult.message);
+        const result = await iamResponse.json();
+        alert(`User registered successfully! IAM User: ${result.iamUser.UserName}, SSM Command ID: ${result.ssmCommandId}`);
+    } else {
+        const errorData = await iamResponse.json();
+        alert(`Error: ${errorData.message}`);
     }
 
     // Send POST request to create user in MongoDB
