@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 // CORS configuration to allow requests from the exact frontend origin
 const corsOptions = {
-    origin: 'http://127.0.0.1:5500', // Allow only this origin
+    origin: 'http://localhost:5173', // Allow only this origin
     methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allowed methods
     allowedHeaders: 'Content-Type,Authorization', // Allowed headers
     optionsSuccessStatus: 200 // For preflight requests
