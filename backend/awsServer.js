@@ -40,6 +40,25 @@ const ssmClient = new SSMClient({
     }
 });
 
+// Password complexity validation function (Windows 10 rules)
+const validatePassword = (password) => {
+    const lengthRequirement = /.{8,}/;
+    const uppercaseRequirement = /[A-Z]/;
+    const lowercaseRequirement = /[a-z]/;
+    const numberRequirement = /\d/;
+    const specialCharRequirement = /[!@#$%^&*(),.?":{}|<>]/;
+
+    // Check if password meets at least 3 out of 4 categories
+    const validCategories = [
+        uppercaseRequirement.test(password),
+        lowercaseRequirement.test(password),
+        numberRequirement.test(password),
+        specialCharRequirement.test(password),
+    ].filter(Boolean).length;
+
+    return lengthRequirement.test(password) && validCategories >= 3;
+};
+
 // Helper function to create a Windows user on an EC2 instance using SSM
 const createWindowsUser = async (instanceId, username, password) => {
     try {
@@ -74,6 +93,14 @@ app.post('/api/register', async (req, res) => {
         return res.status(400).json({ message: 'Username and password are required' });
     }
 
+    // Validate password complexity
+    if (!validatePassword(password)) 
+    {
+        return res.status(400).json({
+            message: "Password does not meet complexity requirements. It must be at least 8 characters long and include characters from at least three of the following categories: uppercase letters, lowercase letters, numbers, and special characters."
+        });
+    }
+
     try {
         // 1. Create IAM user using AWS SDK
         const createUserParams = { UserName: username };
@@ -81,7 +108,7 @@ app.post('/api/register', async (req, res) => {
         const iamData = await iamClient.send(iamCommand);
 
         // 2. Create Windows user on EC2 using SSM (replace instanceId with actual EC2 instance ID)
-        const instanceId = 'i-03b110c6a14649af4'; // Replace with your EC2 instance ID
+        const instanceId = 'i-093293d6cf84c8052'; // Replace with your EC2 instance ID
         const commandId = await createWindowsUser(instanceId, username, password);
 
         // Respond with success
