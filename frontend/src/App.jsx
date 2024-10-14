@@ -16,9 +16,17 @@ const App = () => {
     };
 
     // Function to handle sign in
-    const handleSignIn = () => {
-        // You can add your authentication logic here
-        console.log('Sign in with:', { email, password });
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        const {email, password} = formData;
+        const loginResponse = await fetch('http://localhost:8080/api/login', 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email, password}),
+        });
         window.location.href = '/dashboard';
     };
 

@@ -86,8 +86,10 @@ const createWindowsUser = async (instanceId, username, password) => {
 };
 
 // API route to handle user registration, create IAM user, and create EC2 Windows user
-app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body; // Get the username and password from the request body
+app.post('/api/register', async (req, res) => 
+{
+    // Get the username and password from the request body
+    const { username, password } = req.body; 
 
     if (!username || !password) {
         return res.status(400).json({ message: 'Username and password are required' });
@@ -125,6 +127,7 @@ app.post('/api/register', async (req, res) => {
 
 // Start the server
 const AWS_PORT = process.env.AWS_PORT || 3000;
-app.listen(AWS_PORT, () => {
+app.listen(AWS_PORT, () => 
+{
     console.log(`Server is running on port ${AWS_PORT}`);
 });

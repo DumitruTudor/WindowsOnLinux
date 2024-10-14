@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usersRoute from "./routes/users.js";
-
+import {loginValid} from "./loginValidation.js";
 const app = express(); // assing express to app
 
 // CORS middleware
@@ -26,5 +26,8 @@ mongoose.connect(MONGOURL).then(() =>
         console.log(`Server is running on port ${PORT}`);
     });
 }).catch((error) => console.log(error));
+
+//add login verification
+loginValid();
 
 app.use('/users',usersRoute)

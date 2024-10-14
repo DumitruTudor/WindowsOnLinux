@@ -24,9 +24,12 @@ router.get("/get", async(req, res) =>
 // post operation used to create users
 router.post("/createUser", async(req, res) =>
 {
+    const userData = req.body
+    if(!userData.username || !userData.email || !userData.password)
+        return res.status(400).json({message: "All fields are required."});
     try
     {
-        const userData = await usersModel.create(req.body);
+        userData = await usersModel.create(req.body);
         res.status(200).json(userData);
     }
     catch(error)
