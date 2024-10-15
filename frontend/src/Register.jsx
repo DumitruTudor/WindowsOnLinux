@@ -72,7 +72,7 @@ const handleSubmit = async (e) => {
     if (mongoResponse.ok) 
     {
         const mongoResult = await mongoResponse.json();
-        alert(mongoResult + "User registered successfully!");
+        alert(`${mongoResult.username} registered successfully`);
     } 
     else 
     {

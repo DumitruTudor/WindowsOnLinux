@@ -1,5 +1,6 @@
 import express from "express";
 import usersModel from "../models/usersModel.js";
+import { ConnectionStatus } from "@aws-sdk/client-ssm";
 const router = express.Router();
 
 
@@ -24,7 +25,7 @@ router.get("/get", async(req, res) =>
 // post operation used to create users
 router.post("/createUser", async(req, res) =>
 {
-    const userData = req.body
+    let userData = req.body
     if(!userData.username || !userData.email || !userData.password)
         return res.status(400).json({message: "All fields are required."});
     try

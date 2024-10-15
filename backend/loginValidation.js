@@ -1,36 +1,29 @@
-import express from "express";
-import mongoose from "mongoose";   
-import User from "./routes/users";
+import User from "./routes/users.js";     
 
-const app = express();
-app.use(express.json());
 
 //Adding login route
-export function loginValid()
+export const validateLogin = async (req, res) => 
 {
-    app.post('api/login',async(req,res)=>
+    const {email,password} = req.body;
+    if (!email || !password)
     {
-        const {email,password} = req.body;
-        if (!email || !password)
+        res.status(400).json({message:"Please provide email and password"});
+    }
+    try
+    {
+        let user = await User.findOne({email, password});
+        if(user)
         {
-            res.status(400).json({message:"Please provide email and password"});
+            res.status(200).json({message:"Login successful"});
         }
-        try
+        else
         {
-            const user = await User.findOne({email, password});
-            if(user)
-            {
-                res.status(200).json({message:"Login successful"});
-            }
-            else
-            {
-                res.status(401).json({message:"Invalid credentials"});
-            }
+            res.status(401).json({message:"Invalid credentials"});
         }
-        catch(error)
-        {
-            console.error('Error checking user existence:', error);
-            return res.status(500).json({ message: 'Server error', error: error.message });
-        }
-    },res);
+    }
+    catch(error)
+    {
+        console.error('Error checking user existence:', error);
+        return res.status(500).json({ message: 'Server error', error: error.message });
+    }
 }

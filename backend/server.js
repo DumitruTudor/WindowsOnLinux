@@ -2,16 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usersRoute from "./routes/users.js";
-import {loginValid} from "./loginValidation.js";
-const app = express(); // assing express to app
+import { validateLogin } from "./loginValidation.js";
+import setHeaders from "./headers.js";
 
-// CORS middleware
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+const app = express(); // assing express to app
+app.use(setHeaders); // setting CORS headers
+
 dotenv.config(); // configure environment
 
 const PORT = process.env.PORT; // assign port value from .env file 
@@ -28,6 +24,9 @@ mongoose.connect(MONGOURL).then(() =>
 }).catch((error) => console.log(error));
 
 //add login verification
-loginValid();
+app.post('/api/login', (req,res) => 
+{
+    validateLogin(req, res);
+})
 
 app.use('/users',usersRoute)
