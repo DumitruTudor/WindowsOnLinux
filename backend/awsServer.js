@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const corsOptions = {
     origin: 'http://localhost:5173', // Allow only this origin
     methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allowed methods
-    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+    allowedHeaders: '*', // Allowed headers
     optionsSuccessStatus: 200 // For preflight requests
 };
 
@@ -43,22 +43,23 @@ const validatePassword = (password) => {
 // API route to handle user registration, create IAM user, and create EC2 Windows user
 app.post('/api/register', async (req, res) => 
 {
-    // Get the username and password from the request body
-    const { username, password } = req.body; 
+    // Get the email, username and password from the request body
+    const { email, username, password } = req.body; 
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'Username and password are required' });
+    if (!email || !username || !password) 
+    {
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
     // Validate password complexity
     if (!validatePassword(password)) 
     {
-        return res.status(400).json({
+        return res.status(400).json(
+        {
             message: "Password does not meet complexity requirements. It must be at least 8 characters long and include characters from at least three of the following categories: uppercase letters, lowercase letters, numbers, and special characters."
         });
     }
 
-    
     //iam.js
     createIAMUser(username, password, res);
 });

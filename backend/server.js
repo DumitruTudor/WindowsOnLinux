@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usersRoute from "./routes/users.js";
 import { validateLogin } from "./loginValidation.js";
-import setHeaders from "./headers.js";
+import setHeaders from "./config/headers.js";
+import { verifyEmail } from "./emailVerification.js";
 
 const app = express(); // assing express to app
 app.use(setHeaders); // setting CORS headers
@@ -23,10 +24,11 @@ mongoose.connect(MONGOURL).then(() =>
     });
 }).catch((error) => console.log(error));
 
-//add login verification
-app.post('/api/login', (req,res) => 
-{
-    validateLogin(req, res);
-})
+// add login verification
+app.post('/api/login', (req,res) => validateLogin(req, res));
 
-app.use('/users',usersRoute)
+// verify mail api
+app.get('/api/veify-email', (req,res) => verifyEmail(req,res));
+
+// router for user actions
+app.use('/users',usersRoute);

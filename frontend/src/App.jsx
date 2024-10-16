@@ -19,14 +19,36 @@ const App = () => {
     const handleSignIn = async (e) => {
         e.preventDefault();
         const {email, password} = formData;
-        const loginResponse = await fetch('http://localhost:8080/api/login', 
+        try
         {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password}),
-        });
+            //login validation logic
+            const loginResponse = await fetch('http://localhost:8080/api/login', 
+            {
+                method: 'POST',
+                headers: 
+                {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email, password}),
+            });
+            if(loginResponse.ok)
+            {
+                const loginResult = await loginResponse.json();
+                alert('Login successful');
+                localStorage.setItem('token', loginResult.token);
+            }
+            else
+            {
+                const errorData = await loginResponse.json();
+                alert(`Error: ${errorData.message}`);
+            }
+        }
+        catch(error)
+        {
+            console.error('Error:', error);
+            alert('An error occurred during login: ' + error.message);
+            return;
+        }        
         window.location.href = '/dashboard';
     };
 

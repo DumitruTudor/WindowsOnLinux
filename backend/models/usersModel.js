@@ -23,12 +23,16 @@ const usersSchema = new mongoose.Schema
             type: String,
             required: true            
         },
+        verified: 
+        {
+            type: Boolean,
+            default: false
+        },
     },
 
     {
         versionKey: false,
         timestamps: true,
-
     }
 );
 usersSchema.pre('save', async function(next) 

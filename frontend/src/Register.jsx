@@ -33,7 +33,7 @@ const handleSubmit = async (e) => {
         return;
     }
 
-    const userData = { username, email, password };
+    const userData = { username, email, password};
 
     try {
     // Send POST request to create IAM user
@@ -47,14 +47,14 @@ const handleSubmit = async (e) => {
         body: JSON.stringify(userData),
     });
 
-
+    console.log(iamResponse)
     if (iamResponse.ok) {
         const result = await iamResponse.json();
         alert(`User registered successfully! IAM User: ${result.iamUser.UserName}, SSM Command ID: ${result.ssmCommandId}`);
     } else {
         const errorData = await iamResponse.json();
         alert(`Error: ${errorData.message}`);
-    }
+    } 
 
     // Send POST request to create user in MongoDB
     const mongoResponse = await fetch(
@@ -68,11 +68,11 @@ const handleSubmit = async (e) => {
             body: JSON.stringify(userData),
         }
         );
-
+    
     if (mongoResponse.ok) 
     {
         const mongoResult = await mongoResponse.json();
-        alert(`${mongoResult.username} registered successfully`);
+        alert(`${mongoResult.username} registered successfully. An email has been sent to your email for verification.`);
     } 
     else 
     {
@@ -86,6 +86,9 @@ const handleSubmit = async (e) => {
         console.error("Error:", error);
         alert("An error occurred during registration: " + error.message);
     }
+
+    
+    
 };
 
 return (

@@ -20,6 +20,10 @@ export const validateLogin = async (req, res) =>
         {
             res.status(401).json({message:"Invalid credentials"});
         }
+        if(!user.verified)
+        {
+            res.status(403).json({message:"Please verify your email"});
+        }
     }
     catch(error)
     {
