@@ -33,32 +33,12 @@ const handleSubmit = async (e) => {
         return;
     }
 
-    const userData = { username, email, password };
+    const userData = { username, email, password};
 
-    try {
-    // Send POST request to create IAM user
-    const iamResponse = await fetch("http://localhost:3000/api/register", 
+    try 
     {
-        method: "POST",
-        headers: 
-        {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-    });
-
-
-    if (iamResponse.ok) {
-        const result = await iamResponse.json();
-        alert(`User registered successfully! IAM User: ${result.iamUser.UserName}, SSM Command ID: ${result.ssmCommandId}`);
-    } else {
-        const errorData = await iamResponse.json();
-        alert(`Error: ${errorData.message}`);
-    }
-
-    // Send POST request to create user in MongoDB
-    const mongoResponse = await fetch(
-        "http://localhost:8080/users/createUser",
+        // Send POST request to create IAM user
+        const iamResponse = await fetch("http://localhost:3000/api/register", 
         {
             method: "POST",
             headers: 
@@ -66,26 +46,58 @@ const handleSubmit = async (e) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(userData),
+        });
+
+        if (iamResponse.ok) 
+        {
+            const result = await iamResponse.json();
+            alert(`User registered successfully! IAM User: ${result.iamUser.UserName}, SSM Command ID: ${result.ssmCommandId}`);
+        } 
+        else 
+        {
+            const errorData = await iamResponse.json();
+            alert(`Error: ${errorData.message}`);
         }
-        );
-
-    if (mongoResponse.ok) 
-    {
-        const mongoResult = await mongoResponse.json();
-        alert("User registered successfully!");
-    } 
-    else 
-    {
-        const errorData = await mongoResponse.json();
-        alert(`Error: ${errorData.message}`);
     }
-
+    catch(error)
+    {
+        // Handle error (e.g., when localhost:3000 is offline)
+        console.warn("Localhost:3000 is offline. Skipping IAM registration.");
+    }
+    try
+    {
+        // Send POST request to create user in MongoDB
+        const mongoResponse = await fetch(
+            "http://localhost:8080/users/createUser",
+            {
+                method: "POST",
+                headers: 
+                {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            }
+            );
+        
+        if (mongoResponse.ok) 
+        {
+            const mongoResult = await mongoResponse.json();
+            alert(`${mongoResult.username} registered successfully. An email has been sent to your email for verification.`);
+        } 
+        else 
+        {
+            const errorData = await mongoResponse.json();
+            alert(`Error: ${errorData.message}`);
+        }
     }
     catch (error) 
     {
         console.error("Error:", error);
         alert("An error occurred during registration: " + error.message);
     }
+
+    
+    
 };
 
 return (

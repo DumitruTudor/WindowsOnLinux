@@ -1,7 +1,8 @@
 import express from "express";
 import usersModel from "../models/usersModel.js";
-const router = express.Router();
+import {sendVerificationEmail} from '../emailVerification.js'
 
+const router = express.Router();
 
 router.use(express.json());
 
@@ -24,9 +25,14 @@ router.get("/get", async(req, res) =>
 // post operation used to create users
 router.post("/createUser", async(req, res) =>
 {
+    let userData = req.body
+    
+    if(!userData.username || !userData.email || !userData.password)
+        return res.status(400).json({message: "All fields are required."});
     try
     {
-        const userData = await usersModel.create(req.body);
+        userData = await usersModel.create(req.body);
+        await sendVerificationEmail(userData.email, userData)
         res.status(200).json(userData);
     }
     catch(error)
@@ -106,4 +112,6 @@ router.delete('/delete/:id', async(req, res) =>
         res.status(500).json({message: error.message});
     }
 });
+
 export default router;
+

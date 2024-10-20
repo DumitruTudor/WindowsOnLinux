@@ -2,16 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usersRoute from "./routes/users.js";
+import { validateLogin } from "./loginValidation.js";
+import setHeaders from "./config/headers.js";
+import { verifyEmail } from "./emailVerification.js";
 
 const app = express(); // assing express to app
-
-// CORS middleware
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+app.use(express.json());
+app.use(setHeaders); // setting CORS headers
 dotenv.config(); // configure environment
 
 const PORT = process.env.PORT; // assign port value from .env file 
@@ -27,4 +24,11 @@ mongoose.connect(MONGOURL).then(() =>
     });
 }).catch((error) => console.log(error));
 
-app.use('/users',usersRoute)
+// add login verification
+app.post('/api/login', async (req,res) => validateLogin(req,res));
+
+// verify mail api
+app.post('/api/verify-email', async (req,res) => verifyEmail(req,res));
+
+// router for user actions
+app.use('/users',usersRoute);

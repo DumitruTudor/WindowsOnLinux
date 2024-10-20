@@ -16,10 +16,41 @@ const App = () => {
     };
 
     // Function to handle sign in
-    const handleSignIn = () => {
-        // You can add your authentication logic here
-        console.log('Sign in with:', { email, password });
-        window.location.href = '/dashboard';
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        try
+        {
+            //login validation logic
+            const loginResponse = await fetch('http://localhost:8080/api/login', 
+            {
+                method: 'POST',
+                headers: 
+                {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email, password}),
+            });
+            if(loginResponse.ok)
+            {
+                const loginResult = await loginResponse.json();
+                alert('Login successful');
+                // store JWT Token in localStorage
+                localStorage.setItem('token', loginResult.token);
+                window.location.href = '/dashboard';
+            }
+            else
+            {
+                const errorData = await loginResponse.json();
+                alert(`Error: ${errorData.message}`);
+            }
+        }
+        catch(error)
+        {
+            console.error('Error:', error);
+            alert('An error occurred during login: ' + error.message);
+            return;
+        }        
+        
     };
 
     // Function to redirect to the register page
