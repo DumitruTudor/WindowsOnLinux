@@ -18,7 +18,6 @@ const App = () => {
     // Function to handle sign in
     const handleSignIn = async (e) => {
         e.preventDefault();
-        const {email, password} = formData;
         try
         {
             //login validation logic
@@ -35,7 +34,9 @@ const App = () => {
             {
                 const loginResult = await loginResponse.json();
                 alert('Login successful');
+                // store JWT Token in localStorage
                 localStorage.setItem('token', loginResult.token);
+                window.location.href = '/dashboard';
             }
             else
             {
@@ -49,7 +50,7 @@ const App = () => {
             alert('An error occurred during login: ' + error.message);
             return;
         }        
-        window.location.href = '/dashboard';
+        
     };
 
     // Function to redirect to the register page

@@ -7,8 +7,8 @@ import setHeaders from "./config/headers.js";
 import { verifyEmail } from "./emailVerification.js";
 
 const app = express(); // assing express to app
+app.use(express.json());
 app.use(setHeaders); // setting CORS headers
-
 dotenv.config(); // configure environment
 
 const PORT = process.env.PORT; // assign port value from .env file 
@@ -25,10 +25,10 @@ mongoose.connect(MONGOURL).then(() =>
 }).catch((error) => console.log(error));
 
 // add login verification
-app.post('/api/login', (req,res) => validateLogin(req, res));
+app.post('/api/login', async (req,res) => validateLogin(req,res));
 
 // verify mail api
-app.get('/api/veify-email', (req,res) => verifyEmail(req,res));
+app.post('/api/verify-email', async (req,res) => verifyEmail(req,res));
 
 // router for user actions
 app.use('/users',usersRoute);

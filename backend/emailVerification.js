@@ -1,7 +1,8 @@
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import User from './routes/users.js';    
+import usersModel from './models/usersModel.js';        
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 dotenv.config()
 
 export const sendVerificationEmail = async (email, userData) => 
@@ -52,18 +53,17 @@ export async function verifyEmail(req, res)
     try 
     {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
+        const user = await usersModel.findById(decoded.id);
         if(!user)
-            return res.redirect('/verify-fail');
+            return res.redirect('http://localhost:5173/verify-fail');
         // Mark the user as verified
         user.verified = true;
         await user.save();
-        res.redirect('/verify-success');
-        return res.status(200).json({ message: 'Email verified successfully' });    
+        return res.redirect('http://localhost:5173/verify-success');
     } 
     catch (error) 
     {
-        res.redirect('/verify-fail');
-        return res.status(500).json({ message: 'Invalid or expired token' });
+        res.redirect('http://localhost:5173/verify-fail');
+        return console.error('Error verifying:', error);
     }
 } 

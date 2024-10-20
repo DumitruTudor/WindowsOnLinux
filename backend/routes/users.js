@@ -1,7 +1,5 @@
 import express from "express";
 import usersModel from "../models/usersModel.js";
-import { ConnectionStatus } from "@aws-sdk/client-ssm";
-import crypto from "crypto";   
 import {sendVerificationEmail} from '../emailVerification.js'
 
 const router = express.Router();
@@ -112,29 +110,6 @@ router.delete('/delete/:id', async(req, res) =>
     {
         console.log(error.message);
         res.status(500).json({message: error.message});
-    }
-});
-
-router.post('/verify-email/:token', async (req, res) =>
-{
-    const {token} = req.query;
-    try
-    {
-        const user = await usersModel.findOne({verificationToken: token});
-        if(!user)
-        {
-            return res.status(404).json({message: 'Invalid verification token'});
-        }
-        user.verified = true;
-        user.verificationToken = undefined;
-        user.verificationTokenExpires = undefined;
-        await user.save();
-        res.status(200).json({message: 'Email verified successfully'});
-    }
-    catch(error)
-    {
-        console.error('Error verifying email:', error);
-        return res.status(500).json({ message: 'Server error', error: error.message });
     }
 });
 
