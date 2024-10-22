@@ -18,13 +18,29 @@ export async function createIAMUser(username, password, res)
 {
     try 
     {
+        // Get the email, username and password from the request body
+        const { email, username, password } = req.body; 
+
+        if (!email || !username || !password) 
+        {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Validate password complexity
+        if (!validatePassword(username, password)) 
+        {
+            return res.status(400).json(
+            {
+                message: "Password does not meet complexity requirements. It must be at least 8 characters long and include characters from at least three of the following categories: uppercase letters, lowercase letters, numbers, and special characters."
+            });
+        }
         // 1. Create IAM user using AWS SDK
         const createUserParams = { UserName: username };
         const iamCommand = new CreateUserCommand(createUserParams);
         const iamData = await iamClient.send(iamCommand);
 
         // 2. Create Windows user on EC2 using SSM (replace instanceId with actual EC2 instance ID)
-        const instanceId = 'i-093293d6cf84c8052'; // Replace with your EC2 instance ID
+        const instanceId = process.env.AWS_INSTANCE_ID; // Replace with your EC2 instance ID
         const commandId = await createWindowsUser(instanceId, username, password);
 
         // Respond with success

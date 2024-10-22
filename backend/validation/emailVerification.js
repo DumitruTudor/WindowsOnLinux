@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import usersModel from './models/usersModel.js';        
+import usersModel from '../models/usersModel.js';        
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 dotenv.config()
