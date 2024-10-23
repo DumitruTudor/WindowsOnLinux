@@ -5,6 +5,7 @@ import usersRoute from "./routes/users.js";
 import { validateLogin } from "./loginValidation.js";
 import setHeaders from "./config/headers.js";
 import { verifyEmail } from "./emailVerification.js";
+import { rdpConnect } from "./rdp/rdp.js";
 
 const app = express(); // assing express to app
 app.use(express.json());
@@ -18,10 +19,13 @@ const MONGOURL = process.env.MONGO_URL; // assign mongo url value from .env file
 mongoose.connect(MONGOURL).then(() =>  
 {
     console.log("Database is connected successfully.");
-    app.listen(PORT, () => 
+    const server = app.listen(PORT, () => 
     {
         console.log(`Server is running on port ${PORT}`);
     });
+
+    // start RDP Client
+    rdpConnect(server);
 }).catch((error) => console.log(error));
 
 // add login verification
