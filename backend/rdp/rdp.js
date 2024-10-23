@@ -1,7 +1,6 @@
 import RDP from "node-rdpjs";
 import WebSocket from "ws";
 import dotenv from "dotenv";
-import { rdp } from "node-rdpjs/lib/protocol";
 
 dotenv.config();
 
