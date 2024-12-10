@@ -5,7 +5,7 @@ import usersRoute from "./routes/users.js";
 import { validateLogin } from "./loginValidation.js";
 import setHeaders from "./config/headers.js";
 import { verifyEmail } from "./emailVerification.js";
-import { rdpConnect } from "./rdp/rdp.js";
+
 
 const app = express(); // assing express to app
 app.use(express.json());
@@ -23,9 +23,6 @@ mongoose.connect(MONGOURL).then(() =>
     {
         console.log(`Server is running on port ${PORT}`);
     });
-
-    // start RDP Client
-    rdpConnect(server);
 }).catch((error) => console.log(error));
 
 // add login verification
