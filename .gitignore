@@ -79,3 +79,4 @@ junit-*.xml
 # Miscellaneous
 .DS_Store
 Thumbs.db
+guacamole_config/
