@@ -2,9 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usersRoute from "./routes/users.js";
-import { validateLogin } from "./loginValidation.js";
+import { validateLogin } from "./validation/loginValidation.js";
 import setHeaders from "./config/headers.js";
-import { verifyEmail } from "./emailVerification.js";
+import { verifyEmail } from "./validation/emailVerification.js";
 
 
 const app = express(); // assing express to app

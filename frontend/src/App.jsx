@@ -21,7 +21,7 @@ const App = () => {
         try
         {
             //login validation logic
-            const loginResponse = await fetch('http://localhost:8080/api/login', 
+            const loginResponse = await fetch('http://localhost:5050/api/login', 
             {
                 method: 'POST',
                 headers: 

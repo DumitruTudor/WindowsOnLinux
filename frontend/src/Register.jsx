@@ -68,7 +68,7 @@ const handleSubmit = async (e) => {
     {
         // Send POST request to create user in MongoDB
         const mongoResponse = await fetch(
-            "http://localhost:8080/users/createUser",
+            "http://localhost:5050/users/createUser",
             {
                 method: "POST",
                 headers: 

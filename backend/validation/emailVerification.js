@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email, userData) =>
     try
     {
         const token = jwt.sign({id: userData._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
-        const url = `http://localhost:8080/api/verify-email?token=${token}`
+        const url = `http://localhost:5050/api/verify-email?token=${token}`
         const transporter = nodemailer.createTransport(
         {
             service: "Gmail",
