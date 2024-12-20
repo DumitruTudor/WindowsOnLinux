@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import setupGuacamoleRDPConnection from "../../backend/rdp/guacamoleRdp.js";
 
 const Register = () => {
     const [formData, setFormData] = useState(
@@ -34,7 +35,7 @@ const handleSubmit = async (e) => {
     }
 
     const userData = { username, email, password};
-
+    console.log("User data:", userData)
     try 
     {
         // Send POST request to create IAM user
@@ -83,6 +84,16 @@ const handleSubmit = async (e) => {
         {
             const mongoResult = await mongoResponse.json();
             alert(`${mongoResult.username} registered successfully. An email has been sent to your email for verification.`);
+            await setupGuacamoleRDPConnection(
+            {
+                adminUsername: "guacadmin",
+                adminPassword: "Scorpion19364513!",
+                connectionName: `${username}-Windows`,
+                hostname: "35.176.33.93",
+                port: 3389,
+                username: userData.username,
+                password: userData.password
+            }).then((connectionId) => console.log(`Guacamole RDP connection created successfully: ${connectionId}`)).catch((error)  => console.error("Failed to create connection:", error));
         } 
         else 
         {

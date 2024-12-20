@@ -29,7 +29,7 @@ mongoose.connect(MONGOURL).then(() =>
 app.post('/api/login', async (req,res) => validateLogin(req,res));
 
 // verify mail api
-app.post('/api/verify-email', async (req,res) => verifyEmail(req,res));
+app.get('/api/verify-email', async (req,res) => verifyEmail(req,res));
 
 // router for user actions
 app.use('/users',usersRoute);

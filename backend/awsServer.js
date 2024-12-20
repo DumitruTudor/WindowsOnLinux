@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(setHeaders);
 
 // API route to handle user registration, create IAM user, and create EC2 Windows user
-app.post('/api/register', async (req, res) => createIAMUser(username, password, req, res));
+app.post('/api/register', async (req, res) => createIAMUser(req, res));
 
 // Start the server
 const AWS_PORT = process.env.AWS_PORT || 3000;

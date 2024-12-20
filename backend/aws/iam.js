@@ -1,8 +1,7 @@
 import { IAMClient, CreateUserCommand } from '@aws-sdk/client-iam';
 import { createWindowsUser } from './ssm.js';
+import { validatePassword } from '../validation/passwordValidation.js';
 import dotenv from "dotenv";
-
-
 dotenv.config()
 
 // AWS IAM client setup
@@ -14,7 +13,7 @@ export const iamClient = new IAMClient({
     }
 });
 
-export async function createIAMUser(username, password, res)
+export async function createIAMUser(req, res)
 {
     try 
     {

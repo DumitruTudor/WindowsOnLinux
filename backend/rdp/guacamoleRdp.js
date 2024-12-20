@@ -18,6 +18,11 @@ const createRDPConnection = async (
             port: port.toString(),
             username,
             password,
+            security: "nla", // Network Level Authentication (NLA)
+            "ignore-cert": "true", // Ignore server certificate errors
+            "color-depth": "32", // True color (32-bit)
+            "resize-method": "display-update", // Resize method: Display Update
+            "enable-font-smoothing": "true", // Enable ClearType font smoothing
             },
             attributes: {
                 "max-connections": "",
@@ -28,7 +33,7 @@ const createRDPConnection = async (
             }
         };        
         const response = await fetch(
-            "http://localhost:8080/api/session/data/postgresql/connections", // Replace "postgresql" with your data source
+            "http://localhost:5173/api/session/data/postgresql/connections", // Replace "postgresql" with your data source
         {   
             method: "POST",
             headers: {
@@ -76,14 +81,4 @@ const setupGuacamoleRDPConnection = async ({
     throw error;
 }
 };
-setupGuacamoleRDPConnection({
-    adminUsername: "guacadmin", // Replace with your admin username
-    adminPassword: "Scorpion19364513!", // Replace with your admin password
-    connectionName: "My RDP Connection",
-    hostname: "35.177.213.69", // Replace with the target RDP server's IP or hostname
-    port: 3389, // Default RDP port
-    username: "Administrator", // Replace with the RDP username
-    password: "Smokeweed13!", // Replace with the RDP password
-})
-    .then((connectionId) => console.log("Connection created with ID:", connectionId))
-    .catch((error) => console.error("Failed to create connection:", error));  
+export default setupGuacamoleRDPConnection;

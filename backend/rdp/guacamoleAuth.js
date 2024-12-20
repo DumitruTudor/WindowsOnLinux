@@ -1,6 +1,7 @@
 // Function to authenticate with Guacamole
 const guacAuthenticate = async (adminUsername, adminPassword) => {
-    const response = await fetch("http://localhost:8080/api/tokens", {
+    console.log(adminUsername, adminPassword)
+    const response = await fetch("http://localhost:5173/api/tokens", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
@@ -10,7 +11,6 @@ const guacAuthenticate = async (adminUsername, adminPassword) => {
     });
     
     if (!response.ok) {
-        console.log(response)
         throw new Error("Failed to authenticate with Guacamole.");
     }
 
