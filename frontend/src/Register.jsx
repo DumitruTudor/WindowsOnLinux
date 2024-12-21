@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import setupGuacamoleRDPConnection from "../../backend/rdp/guacamoleRdp.js";
+import setupGuacamoleRDPConnection from "../../backend/guacamole/guacamoleRdp.js";
 
 const Register = () => {
     const [formData, setFormData] = useState(

@@ -10,7 +10,7 @@ const GuacamoleComponent = () =>
     useEffect(() => 
     {
         // Initialize Guacamole client
-        const tunnel = new Guacamole.HTTPTunnel('http://localhost:8080/guacamole/tunnel');
+        const tunnel = new Guacamole.HTTPTunnel('http://localhost:5173/guacamole/tunnel');
         guacClient = new Guacamole.Client(tunnel);
 
     // Attach the display to the container

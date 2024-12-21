@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Style.css'; // Assuming you have the CSS file for styling
-
+import guacAuthenticate from '../../backend/guacamole/guacamoleAuth.js';
+import {redirectToConnection} from '../../backend/guacamole/guacamoleGetConnections.js';
 const App = () => {
     // Local state for email and password
     const [email, setEmail] = useState('');
@@ -36,7 +37,12 @@ const App = () => {
                 alert('Login successful');
                 // store JWT Token in localStorage
                 localStorage.setItem('token', loginResult.token);
-                window.location.href = '/dashboard';
+                // Connection Logic START 
+                const authToken = await guacAuthenticate('guacadmin', 'Scorpion19364513!');
+                const user = (await fetch(`http://localhost:5050/users/getByEmail/${email}`))
+                const userData = await user.json();
+                await redirectToConnection(userData.username, password, userData.username, authToken);
+                // Connection Logic END
             }
             else
             {
