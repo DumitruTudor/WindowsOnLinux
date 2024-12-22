@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import setupGuacamoleRDPConnection from "../../backend/guacamole/guacamoleRdp.js";
-
+import uploadObj  from "../../backend/aws/s3.js";
 const Register = () => {
     const [formData, setFormData] = useState(
     {
@@ -94,6 +94,7 @@ const handleSubmit = async (e) => {
                 username: userData.username,
                 password: userData.password
             }).then((connectionId) => console.log(`Guacamole RDP connection created successfully: ${connectionId}`)).catch((error)  => console.error("Failed to create connection:", error));
+
         } 
         else 
         {
@@ -106,9 +107,56 @@ const handleSubmit = async (e) => {
         console.error("Error:", error);
         alert("An error occurred during registration: " + error.message);
     }
+    const generatePowerShellScript = (username) =>
+    {
+        const script = `
+        # Define the user and desktop path
+        $UserName = "${username}"
+        $DesktopPath = "C:\\Users\\$UserName\\Desktop"
 
-    
-    
+        # Check if the Desktop folder exists for the user
+        if (!(Test-Path -Path $DesktopPath)) {
+            Write-Output "Desktop path for user $UserName not found."
+            exit 1
+        }
+
+        # Define shortcuts to create
+        $Shortcuts = @(
+            @{ Name = "Microsoft Word"; TargetPath = "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"; IconLocation = "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE" },
+            @{ Name = "Microsoft Excel"; TargetPath = "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"; IconLocation = "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE" },
+            @{ Name = "Microsoft PowerPoint"; TargetPath = "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"; IconLocation = "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE" }
+        )
+
+        # Create the shortcuts
+        foreach ($Shortcut in $Shortcuts) {
+            $ShortcutPath = Join-Path -Path $DesktopPath -ChildPath ("$($Shortcut.Name).lnk")
+            $WScriptShell = New-Object -ComObject WScript.Shell
+            $ShortcutObject = $WScriptShell.CreateShortcut($ShortcutPath)
+            $ShortcutObject.TargetPath = $Shortcut.TargetPath
+            $ShortcutObject.IconLocation = $Shortcut.IconLocation
+            $ShortcutObject.Save()
+            Write-Output "Shortcut created: $($Shortcut.Name)"
+        }
+        `;
+        return script;
+    };
+    const scriptContent = generatePowerShellScript(userData.username);
+    const bucketName = "windows-scripts";
+    const fileKey = `${userData.username}-Windows`;
+    uploadObj(bucketName, fileKey, scriptContent);
+    const response = await fetch ("http://localhost:3000/api/run-ssm",
+        {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                instanceId: import.meta.env.VITE_AWS_INSTANCE_ID,
+                bucketName,
+                fileKey
+            })
+        }
+    )
 };
 
 return (

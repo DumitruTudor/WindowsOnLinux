@@ -1,5 +1,3 @@
-import { S3Client } from '@aws-sdk/client-s3';
-import * as fs from 'fs';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import 
 {
@@ -7,17 +5,28 @@ import
     S3Client,
     S3ServiceException,
 } from "@aws-sdk/client-s3";
-export const uploadObj = async ({ bucketName, key, filePath }) => 
+const region = import.meta.env.VITE_AWS_REGION;
+const accessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
+const secretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY; 
+
+const uploadObj = async ( bucketName, key, fileContent ) => 
 {
-    const client = new S3Client({});
+    console.log("data:",region, accessKeyId, secretAccessKey, bucketName);
+    const client = new S3Client({
+        region: region,
+        credentials: {
+            accessKeyId: accessKeyId,
+            secretAccessKey: secretAccessKey
+        }
+    });
     try
     {
         const command = new PutObjectCommand({
             Bucket: bucketName,
             Key: key,
-            Body: fs.createReadStream(filePath),
+            Body: fileContent,
         });
-
+        console.log("command:", command);
         const response = await client.send(command);
         console.log(response);
     } 
@@ -26,4 +35,4 @@ export const uploadObj = async ({ bucketName, key, filePath }) =>
         console.error(err);
     }
 }
-    
+export default uploadObj    
