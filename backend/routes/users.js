@@ -1,6 +1,6 @@
 import express from "express";
 import usersModel from "../models/usersModel.js";
-import {sendVerificationEmail} from '../emailVerification.js'
+import {sendVerificationEmail} from '../validation/emailVerification.js'
 
 const router = express.Router();
 
@@ -112,6 +112,8 @@ router.delete('/delete/:id', async(req, res) =>
         res.status(500).json({message: error.message});
     }
 });
+
+
 
 export default router;
 

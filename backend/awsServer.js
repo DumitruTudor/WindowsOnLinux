@@ -1,4 +1,3 @@
-// Import required modules
 import express from 'express';
 import { createIAMUser } from './aws/iam.js';
 import 'dotenv/config';
@@ -14,11 +13,11 @@ app.use(express.json());
 app.use(setHeaders);
 
 // API route to handle user registration, create IAM user, and create EC2 Windows user
-app.post('/api/register', async (req, res) => createIAMUser(username, password, req, res));
+app.post('/api/register', async (req, res) => createIAMUser(req, res));
 
 // Start the server
 const AWS_PORT = process.env.AWS_PORT || 3000;
-app.listen(AWS_PORT, () => 
+const server = app.listen(AWS_PORT, () => 
 {
     console.log(`Server is running on port ${AWS_PORT}`);
 });

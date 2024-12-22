@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email, userData) =>
     try
     {
         const token = jwt.sign({id: userData._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
-        const url = `http://localhost:8080/api/verify-email?token=${token}`
+        const url = `http://localhost:5050/api/verify-email?token=${token}`
         const transporter = nodemailer.createTransport(
         {
             service: "Gmail",
@@ -26,11 +26,10 @@ export const sendVerificationEmail = async (email, userData) =>
         const mailOptions = 
         {
             from: process.env.EMAIL,
-            to: email,
+            to: "tudor.dumitru1114@gmail.com",
             subject: 'Email Verification',
             text: `Click this link to verify your email: ${url}`
         };
-        console.log("I got here");
         transporter.sendMail(mailOptions, (error, info) =>
         {
             if (error)
@@ -54,9 +53,12 @@ export async function verifyEmail(req, res)
     {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await usersModel.findById(decoded.id);
+        console.log(user);
+        console.log("I got here");
         if(!user)
             return res.redirect('http://localhost:5173/verify-fail');
         // Mark the user as verified
+        console.log("I got here");
         user.verified = true;
         await user.save();
         return res.redirect('http://localhost:5173/verify-success');

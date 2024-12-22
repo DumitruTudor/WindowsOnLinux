@@ -7,7 +7,6 @@ import Register from './Register';
 import Dashboard from './Dashboard';  
 import VerifySuccess from './VerifySuccess';
 import VerifyFail from './VerifyFail';
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
