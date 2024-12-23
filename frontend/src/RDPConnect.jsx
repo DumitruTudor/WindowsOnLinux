@@ -12,7 +12,6 @@ const RDPConnect = () =>
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ username, password }),
     });
-
     if (!response.ok) 
         {
             throw new Error("Authentication failed.");

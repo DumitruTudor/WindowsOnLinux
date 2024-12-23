@@ -29,6 +29,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.19.2",
+    "guacamole-common-js": "^1.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.1",
     "mstsc.js": "^0.2.4",

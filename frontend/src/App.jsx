@@ -41,6 +41,7 @@ const App = () => {
                 const authToken = await guacAuthenticate('guacadmin', 'Scorpion19364513!');
                 const user = (await fetch(`http://localhost:5050/users/getByEmail/${email}`))
                 const userData = await user.json();
+                console.log(userData.username);
                 await redirectToConnection(userData.username, password, userData.username, authToken);
                 // Connection Logic END
             }

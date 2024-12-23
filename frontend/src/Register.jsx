@@ -89,7 +89,7 @@ const handleSubmit = async (e) => {
                 adminUsername: "guacadmin",
                 adminPassword: "Scorpion19364513!",
                 connectionName: `${username}-Windows`,
-                hostname: "35.176.33.93",
+                hostname: "18.170.79.101",
                 port: 3389,
                 username: userData.username,
                 password: userData.password
@@ -107,18 +107,16 @@ const handleSubmit = async (e) => {
         console.error("Error:", error);
         alert("An error occurred during registration: " + error.message);
     }
-    const generatePowerShellScript = (username) =>
+    const generatePowerShellScript = () =>
     {
         const script = `
-        # Define the user and desktop path
-        $UserName = "${username}"
-        $DesktopPath = "C:\\Users\\$UserName\\Desktop"
+        $DesktopPath = "C:\\Users\\Public\\Desktop"
 
         # Check if the Desktop folder exists for the user
-        if (!(Test-Path -Path $DesktopPath)) {
-            Write-Output "Desktop path for user $UserName not found."
-            exit 1
-        }
+        #if (!(Test-Path -Path $DesktopPath)) {
+            #Write-Output "Desktop path for user $UserName not found."
+            #exit 1
+        #}
 
         # Define shortcuts to create
         $Shortcuts = @(
@@ -140,7 +138,7 @@ const handleSubmit = async (e) => {
         `;
         return script;
     };
-    const scriptContent = generatePowerShellScript(userData.username);
+/*     const scriptContent = generatePowerShellScript();
     const bucketName = "windows-scripts";
     const fileKey = `${userData.username}-Windows`;
     uploadObj(bucketName, fileKey, scriptContent);
@@ -156,7 +154,7 @@ const handleSubmit = async (e) => {
                 fileKey
             })
         }
-    )
+    ) */
 };
 
 return (

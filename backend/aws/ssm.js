@@ -19,7 +19,7 @@ export const createWindowsUser = async (instanceId, username, password) => {
             Parameters: {
                 commands: [
                     `net user ${username} ${password} /ADD /Y`,
-                    `net localgroup administrators ${username} /ADD /Y`
+                    `net localgroup "Remote Desktop Users" ${username} /ADD /Y`
                 ]
             }
         };
