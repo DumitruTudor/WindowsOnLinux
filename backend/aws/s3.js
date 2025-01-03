@@ -11,7 +11,6 @@ const secretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
 
 const uploadObj = async ( bucketName, key, fileContent ) => 
 {
-    console.log("data:",region, accessKeyId, secretAccessKey, bucketName);
     const client = new S3Client({
         region: region,
         credentials: {

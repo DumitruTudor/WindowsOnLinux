@@ -41,7 +41,7 @@ export const executePowershellScript = async (req, res) => {
         const { instanceId, bucketName, fileKey } = req.body;
         const params = {
             DocumentName: 'AWS-RunPowerShellScript', // SSM document to run PowerShell
-            InstanceIds: [instanceId], // Specify your EC2 instance ID here
+            InstanceIds: [instanceId],
             Parameters: {
                 commands: [
                     `aws s3 cp s3://${bucketName}/${fileKey} C:\\Temp\\AddOfficeShortcuts.ps1`,

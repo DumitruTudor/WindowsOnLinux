@@ -1,6 +1,5 @@
 // Function to authenticate with Guacamole
 const guacAuthenticate = async (adminUsername, adminPassword) => {
-    console.log(adminUsername, adminPassword)
     const response = await fetch("http://localhost:5173/api/tokens", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },

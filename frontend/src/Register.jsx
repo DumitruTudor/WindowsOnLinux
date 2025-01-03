@@ -35,7 +35,6 @@ const handleSubmit = async (e) => {
     }
 
     const userData = { username, email, password};
-    console.log("User data:", userData)
     try 
     {
         // Send POST request to create IAM user
@@ -86,10 +85,10 @@ const handleSubmit = async (e) => {
             alert(`${mongoResult.username} registered successfully. An email has been sent to your email for verification.`);
             await setupGuacamoleRDPConnection(
             {
-                adminUsername: "guacadmin",
-                adminPassword: "Scorpion19364513!",
+                adminUsername: admin,
+                adminPassword: adminpassword,
                 connectionName: `${username}-Windows`,
-                hostname: "18.170.79.101",
+                hostname: EC2hostname,
                 port: 3389,
                 username: userData.username,
                 password: userData.password
@@ -107,7 +106,7 @@ const handleSubmit = async (e) => {
         console.error("Error:", error);
         alert("An error occurred during registration: " + error.message);
     }
-    const generatePowerShellScript = () =>
+/*     const generatePowerShellScript = () =>
     {
         const script = `
         $DesktopPath = "C:\\Users\\Public\\Desktop"
@@ -137,24 +136,7 @@ const handleSubmit = async (e) => {
         }
         `;
         return script;
-    };
-/*     const scriptContent = generatePowerShellScript();
-    const bucketName = "windows-scripts";
-    const fileKey = `${userData.username}-Windows`;
-    uploadObj(bucketName, fileKey, scriptContent);
-    const response = await fetch ("http://localhost:3000/api/run-ssm",
-        {
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                instanceId: import.meta.env.VITE_AWS_INSTANCE_ID,
-                bucketName,
-                fileKey
-            })
-        }
-    ) */
+    }; */
 };
 
 return (

@@ -7,7 +7,7 @@ import setHeaders from "./config/headers.js";
 import { verifyEmail } from "./validation/emailVerification.js";
 
 
-const app = express(); // assing express to app
+const app = express(); // assigning express to app
 app.use(express.json());
 app.use(setHeaders); // setting CORS headers
 dotenv.config(); // configure environment
@@ -25,7 +25,7 @@ mongoose.connect(MONGOURL).then(() =>
     });
 }).catch((error) => console.log(error));
 
-// add login verification
+// add login verification   
 app.post('/api/login', async (req,res) => validateLogin(req,res));
 
 // verify mail api

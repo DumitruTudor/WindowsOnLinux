@@ -26,7 +26,7 @@ export const findConnectionByName = (connections, searchName) =>
 
     return matchingConnection;
 };
-export const redirectToConnection = async (username, password, searchName, token) => 
+export const redirectToConnection = async (searchName, token) => 
 {
     try
     {

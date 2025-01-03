@@ -33,7 +33,7 @@ const createRDPConnection = async (
             }
         };        
         const response = await fetch(
-            "http://localhost:5173/api/session/data/postgresql/connections", // Replace "postgresql" with your data source
+            "http://localhost:5173/api/session/data/postgresql/connections", 
         {   
             method: "POST",
             headers: {
@@ -63,7 +63,6 @@ const setupGuacamoleRDPConnection = async ({
     try {
         // Step 1: Authenticate with Guacamole
         const authToken = await guacAuthenticate(adminUsername, adminPassword);
-        console.log("Authentication successful. Token:", authToken);
         // Step 2: Create the RDP connection
         const connectionId = await createRDPConnection(
             authToken,
