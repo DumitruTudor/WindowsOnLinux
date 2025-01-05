@@ -3,6 +3,8 @@ import './Style.css'; // Assuming you have the CSS file for styling
 import guacAuthenticate from '../../backend/guacamole/guacamoleAuth.js';
 import {redirectToConnection} from '../../backend/guacamole/guacamoleGetConnections.js';
 
+const admin = import.meta.env.VITE_GUAC_ADMIN;
+const adminpassword = import.meta.env.VITE_GUAC_PASS;
 const Login = () => {
     // Local state for email and password
     const [email, setEmail] = useState('');
