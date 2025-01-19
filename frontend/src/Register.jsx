@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import setupGuacamoleRDPConnection from "../../backend/guacamole/guacamoleRdp.js";
 import getEC2IPv4Address from "../../backend/aws/ec2.js";
+import { useNavigate } from "react-router-dom";
 
 const admin = import.meta.env.VITE_GUAC_ADMIN;
 const adminpassword = import.meta.env.VITE_GUAC_PASS;
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState(
     {
         username: "",
@@ -151,6 +153,15 @@ return (
             required
         />
         </div>
+        <div className="tooltip">Password requirements:
+            <ul>
+                <li>At least 8 characters</li>
+                <li>At least one uppercase letter</li>
+                <li>At least one lowercase letter</li>
+                <li>At least one number</li>
+                <li>At least one special character (!, @, #, etc.)</li>
+            </ul>
+        </div>
         <div className="input-group">
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
@@ -164,6 +175,7 @@ return (
         </div>
         <div className="button-group">
         <button type="submit">Submit</button>
+        <button type="button" className="back-button" onClick={() => navigate("/")}>Back</button>
         </div>
     </form>
     </div>
