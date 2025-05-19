@@ -1,9 +1,5 @@
 import { EC2Client, DescribeInstancesCommand } from "@aws-sdk/client-ec2";
 
-//const region = "eu-west-2";
-//const accessKeyId = "AKIAU6GDVT2ORDAG7GUI";
-//const secretAccessKey =  "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";
-//const instanceId = "i-0e10a9ff30b301341";
 const region = import.meta.env.VITE_AWS_REGION;
 const accessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
 const secretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY; 
