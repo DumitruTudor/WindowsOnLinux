@@ -1,4 +1,5 @@
-import { Buffer } from "buffer"; 
+import { Buffer } from "buffer";
+import * as guac from "guacamole-common-js"
 // Function for getting all connections
 const getUserConnections = async (token) => 
 {
@@ -25,21 +26,28 @@ export const findConnectionByName = (connections, searchName) =>
 
     return matchingConnection;
 };
-export const redirectToConnection = async (username, password, searchName, token) => 
+export const redirectToConnection = async (searchName, token) => 
 {
     try
-    {   
+    {
         // Step 1: Fetch all connections
         const connections = await getUserConnections(token);
-
+        
         // Step 2: Find the specific connection
         const selectedConnection = findConnectionByName(connections, searchName);
-
         // Step 3: Generate the Guacamole URL
-        const guacamoleUrl = `http://localhost:5173/guacamole/#/client/${selectedConnection.identifier}`;
+        const createBase64Identifier = (connectionId, dataSource) =>
+        {
+            const identifier = `${connectionId}\u0000c\u0000${dataSource}`
+            const base64Identifier = Buffer.from(identifier).toString("base64");
 
+            return base64Identifier;
+        }
+        const dataSource = "postgresql";
+        const base64Identifier = createBase64Identifier(selectedConnection.identifier, dataSource);
+        const guacamoleUrl = `http://localhost:5173/guacamole/#/client/${base64Identifier}?token=${token}`;
         window.location.href = guacamoleUrl;
-        } 
+        }
         catch (error) 
         {
             console.error("Error:", error.message);

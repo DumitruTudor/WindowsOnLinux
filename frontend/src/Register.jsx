@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import setupGuacamoleRDPConnection from "../../backend/guacamole/guacamoleRdp.js";
+import getEC2IPv4Address from "../../backend/aws/ec2.js";
+import { useNavigate } from "react-router-dom";
+
+const admin = import.meta.env.VITE_GUAC_ADMIN;
+const adminpassword = import.meta.env.VITE_GUAC_PASS;
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState(
     {
         username: "",
@@ -35,7 +41,6 @@ const handleSubmit = async (e) => {
     }
 
     const userData = { username, email, password};
-    console.log("User data:", userData)
     try 
     {
         // Send POST request to create IAM user
@@ -84,16 +89,18 @@ const handleSubmit = async (e) => {
         {
             const mongoResult = await mongoResponse.json();
             alert(`${mongoResult.username} registered successfully. An email has been sent to your email for verification.`);
+            const EC2hostname = await getEC2IPv4Address();
             await setupGuacamoleRDPConnection(
             {
-                adminUsername: "guacadmin",
-                adminPassword: "Scorpion19364513!",
+                adminUsername: admin,
+                adminPassword: adminpassword,
                 connectionName: `${username}-Windows`,
-                hostname: "35.176.33.93",
+                hostname: EC2hostname,
                 port: 3389,
                 username: userData.username,
                 password: userData.password
             }).then((connectionId) => console.log(`Guacamole RDP connection created successfully: ${connectionId}`)).catch((error)  => console.error("Failed to create connection:", error));
+
         } 
         else 
         {
@@ -107,8 +114,6 @@ const handleSubmit = async (e) => {
         alert("An error occurred during registration: " + error.message);
     }
 
-    
-    
 };
 
 return (
@@ -148,6 +153,15 @@ return (
             required
         />
         </div>
+        <div className="tooltip">Password requirements:
+            <ul>
+                <li>At least 8 characters</li>
+                <li>At least one uppercase letter</li>
+                <li>At least one lowercase letter</li>
+                <li>At least one number</li>
+                <li>At least one special character (!, @, #, etc.)</li>
+            </ul>
+        </div>
         <div className="input-group">
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
@@ -161,6 +175,7 @@ return (
         </div>
         <div className="button-group">
         <button type="submit">Submit</button>
+        <button type="button" className="back-button" onClick={() => navigate("/")}>Back</button>
         </div>
     </form>
     </div>

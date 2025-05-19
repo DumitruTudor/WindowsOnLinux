@@ -39,7 +39,7 @@ export async function createIAMUser(req, res)
         const iamData = await iamClient.send(iamCommand);
 
         // 2. Create Windows user on EC2 using SSM (replace instanceId with actual EC2 instance ID)
-        const instanceId = process.env.AWS_INSTANCE_ID; // Replace with your EC2 instance ID
+        const instanceId = process.env.AWS_INSTANCE_ID;
         const commandId = await createWindowsUser(instanceId, username, password);
 
         // Respond with success

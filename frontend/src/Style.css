@@ -141,60 +141,6 @@ button:hover {
   background-color: #303f9f;
 }
 
-/* Style for dashboard */
-.dashboard-container {
-  background-color: #1e1e1e;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  width: 300px;
-  text-align: center;
-}
-
-.dashboard-container h2 {
-  margin-bottom: 20px;
-  color: white;
-}
-
-.dashboard-container .button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.dashboard-container button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #3f51b5;
-  color: #ffffff;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-.dashboard-container button:hover {
-  background-color: #303f9f;
-}
-button {
-  background-color: #3f51b5;
-  border: none;
-  color: white;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #303f9f;
-}
-
-button svg {
-  margin-right: 8px; /* Space between the icon and the text (if any) */
-}
-
 /* Container for tooltip */
 .button-group {
   position: relative;
@@ -217,37 +163,36 @@ button:hover {
   background-color: #303f9f;
 }
 
-/* Tooltip styling */
 .tooltip {
-  visibility: hidden;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  padding: 5px 10px;
-  border-radius: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%; /* Position the tooltip above the button */
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  color: #bbbbbb;
 }
 
-/* Tooltip arrow */
-.tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%; /* Arrow at the bottom */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+.tooltip ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-/* Show the tooltip on hover */
-button:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
+.tooltip li {
+  margin-bottom: 5px;
+}
+
+.back-button {
+  background-color: #757575; /* Matches the dark gray tone */
+  color: #ffffff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #616161; /* Slightly darker gray on hover */
 }

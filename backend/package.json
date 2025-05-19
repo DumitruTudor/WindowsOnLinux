@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend service for the website",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "devStart": "nodemon server.js",
     "awsStart": "nodemon awsServer.js"
@@ -18,25 +18,27 @@
   },
   "homepage": "https://github.com/DumitruTudor/WindowsOnLinux#readme",
   "dependencies": {
-    "@aws-sdk/client-iam": "^3.645.0",
-    "@aws-sdk/client-s3": "^3.717.0",
-    "@aws-sdk/client-ssm": "^3.658.1",
-    "aws-sdk": "^2.1691.0",
+    "@aws-sdk/client-ec2": "^3.794.0",
+    "@aws-sdk/client-iam": "^3.787.0",
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@aws-sdk/client-ssm": "^3.787.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
+    "body-parser": "^2.2.0",
     "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "dotenv": "^16.4.7",
-    "express": "^4.19.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "guacamole-common-js": "^1.5.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.1",
+    "mongoose": "^8.13.2",
     "mstsc.js": "^0.2.4",
     "node-rdp": "^1.0.1",
     "node-rdpjs": "^0.3.0",
-    "nodemailer": "^6.9.15",
-    "nodemon": "^3.1.4",
-    "ws": "^8.18.0"
+    "nodemailer": "^6.10.1",
+    "nodemon": "^3.1.10",
+    "ws": "^8.18.1"
   },
   "type": "module"
 }
